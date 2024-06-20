@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "lib": ["es6", "dom"],
+      "allowJs": true,
+      "jsx": "react",
+      "moduleResolution": "node",
+      "outDir": "./dist",
+      "strict": true,
+      "esModuleInterop": true,
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "strictNullChecks": true
+    },
+    "include": ["src/**/*"]
+}
