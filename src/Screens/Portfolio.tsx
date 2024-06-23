@@ -1,6 +1,8 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { ReactNode } from "react";
 import ProjectCard from "../Components/ProjectCard";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 export type project = {
   summary: string;
@@ -22,7 +24,7 @@ export const Portfolio = () => {
     },
     {
       summary: "UofLEduWebDev",
-      subject: "Departmental Analysis",
+      subject: "Masters Project",
       description:
         "Collaborated with a university professor to design a cloud-based full-stack application from scratch for the education department, enabling them to analyze departmental data points and perform comprehensive data analysis tasks efficiently.",
       link: "https://github.com/btgehr01/Education-Project",
@@ -65,7 +67,7 @@ export const Portfolio = () => {
       subject: "Windmill Prototype",
       description:
         "Designed and built a 3D-printed windmill prototype, incorporating an AC generator made from magnets and copper wire. Later integrated an Arduino to measure the windmill's blade speed and electrical current output.",
-      link: "https://engineering.louisville.edu/academics/areasofstudy/engineering-fundamentals/",
+      link: "https://cardmaillouisville-my.sharepoint.com/:b:/g/personal/btgehr01_louisville_edu/EfTsqyUE9E5Avz6tKAHCI5kBGLQMPtiQ5pdFwtR2aZXLqQ?e=OeDndS",
       fileType: "jpg",
     },
     {
@@ -81,7 +83,7 @@ export const Portfolio = () => {
       subject: "Autonomous Volleyball Line Judge",
       description:
         "Developed an autonomous volleyball line judge utilizing an Arduino for a capstone project, and presented the design at a conference held within the Kentucky Capitol building.",
-      link: "https://www.pltw.org/curriculum/pltw-engineering",
+      link: "https://cardmaillouisville-my.sharepoint.com/:i:/g/personal/btgehr01_louisville_edu/ERQFOOv2NFpNr1jGwG8Ho3EBirBpVv_7DIuObDytZJJGsg?e=xbJ6zW",
       fileType: "jpg",
     },
     {
@@ -129,12 +131,41 @@ export const Portfolio = () => {
         minHeight: "100vh",
         backgroundColor: "black",
         padding: "50px",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-evenly",
       }}
     >
-      {renderCards()}
+      <Box sx={{ marginLeft: "40px", marginBottom: "25px" }}>
+        <Button
+          variant="outlined"
+          sx={{ marginRight: "30px" }}
+          size="large"
+          endIcon={<GitHubIcon />}
+          onClick={() => window.open("https://github.com/btgehr01", "_blank")}
+        >
+          My GitHub
+        </Button>
+        <Button
+          variant="outlined"
+          size="large"
+          endIcon={<LinkedInIcon />}
+          onClick={() =>
+            window.open(
+              "https://www.linkedin.com/in/brady-gehrman-687508249/",
+              "_blank"
+            )
+          }
+        >
+          My LinkedIn
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
+        }}
+      >
+        {renderCards()}
+      </Box>
     </Box>
   );
 };
