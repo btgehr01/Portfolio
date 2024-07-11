@@ -7,8 +7,6 @@ const ContactForm = () => {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [captchaValid, setCaptchaValid] = useState(false);
 
-  console.log("siteKey:", siteKey);
-
   const handleCaptchaChange = (value: string | null): void => {
     setCaptchaValid(!!value);
   };
