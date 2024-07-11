@@ -1,49 +1,36 @@
 import axios from "axios";
 
-const accessToken = process.env.REACT_APP_SPOTIFY_ACCESS_TOKEN;
-const playlistId = process.env.REACT_APP_SPOTIFY_PLAYLIST_ID;
+const apiUrl = "/api/spotify";
 
-export const postSongToPlaylist = async (
-  playlistId: string,
-  songURI: string
-) => {
-  const postData = {
-    uris: [songURI],
-    position: 0,
-  };
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
+export const postSongToPlaylist = async (songURI: string) => {
   try {
-    await axios.post(
-      `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-      postData,
-      config
+    const response = await axios.get(
+      `${apiUrl}/addSong?songURI=${encodeURIComponent(songURI)}`
     );
+    return response.data;
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 };
 
-export const getPlaylistSongs = async (playlistId: string) => {
+export const getPlaylistSongs = async () => {
   try {
-    await axios.post(
-      `https://api.spotify.com/v1/playlists/${playlistId}/tracks?offset=0&limit=20`
-    );
+    const response = await axios.get(`${apiUrl}/getPlaylistSongs`);
+    return response.data;
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 };
 
 export const getSongsFromSearch = async (searchString: string) => {
   try {
-    await axios.post(
-      `
-        https://api.spotify.com/v1/search?q=${searchString}type=track&limit=10&include_external=audio`
+    const response = await axios.get(
+      `${apiUrl}/getSongsFromSearch?searchString=${encodeURIComponent(
+        searchString
+      )}`
     );
+    return response.data;
   } catch (e) {
-    console.log("hii");
+    console.error(e);
   }
 };
