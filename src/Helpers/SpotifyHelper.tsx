@@ -44,6 +44,6 @@ export const getSongsFromSearch = async (searchString: string) => {
         https://api.spotify.com/v1/search?q=${searchString}type=track&limit=10&include_external=audio`
     );
   } catch (e) {
-    console.log("hi");
+    console.log("hii");
   }
 };
