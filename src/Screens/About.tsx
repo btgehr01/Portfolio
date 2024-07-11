@@ -18,6 +18,24 @@ export const About = () => {
       logo: "SchoolTwoTone",
     },
     {
+      name: "Unique",
+      description:
+        "I'm a 6'4\" triplet with a distinctive mole in my eye, giving it two different colors. I also enjoy growing bonsai trees.",
+      logo: "FolderSpecialTwoTone",
+    },
+    {
+      name: "Setup Tour",
+      description:
+        "Dell Inspiron 15 Laptop, ASUS TUF Gaming VG259QM 24.5” Monitor, FNATIC STREAK65 Mechanical Keyboard, Razer Basilisk Wireless Mouse, Besign laptop stand.",
+      logo: "HomeWorkTwoTone",
+    },
+    {
+      name: "Current Goals",
+      description:
+        "My current goals are to lock down a full time job, find a side hustle, and get better at golf.",
+      logo: "SportsScoreTwoTone",
+    },
+    {
       name: "Athletics",
       description:
         "I participated in high school soccer and collegiate club volleyball, and I am currently learning golf.",
@@ -48,10 +66,10 @@ export const About = () => {
       logo: "LibraryMusicTwoTone",
     },
     {
-      name: "Favorite Video Games",
+      name: "Favorite Sports Teams",
       description:
-        "My top three video games at the moment are 'Rocket League', 'Call of Duty', and 'Geoguessor'.",
-      logo: "SportsEsportsTwoTone",
+        "My favorite college sport teams to watch are Michigan and Louisville, and my favorite professional sports teams to watch are the 'Detroit Lions' and 'Optic Gaming'.",
+      logo: "ScreenShareTwoTone",
     },
     {
       name: "Favorite Cars",
@@ -60,13 +78,25 @@ export const About = () => {
       logo: "GarageTwoTone",
     },
     {
-      name: "Favorite Vacations I've Been On",
+      name: "Favorite Apps",
+      description:
+        "My current favorite apps are 'YouTube', 'Spotify', and 'Instagram'.",
+      logo: "PhoneIphoneTwoTone",
+    },
+    {
+      name: "Favorite Video Games",
+      description:
+        "My top three video games at the moment are 'Rocket League', 'Call of Duty', and 'Geoguessor'.",
+      logo: "SportsEsportsTwoTone",
+    },
+    {
+      name: "Best Vacations I've Been On",
       description:
         "My top three favorite places that I have gotten to visit are 'San Diego, CA', 'Washington D.C.', and 'Clearwater, FL'.",
       logo: "CardTravelTwoTone",
     },
     {
-      name: "Places I Want to Live",
+      name: "Cities I Want to Live In",
       description:
         "I want to end up living in 'Charlotte, NC', 'San Diego, CA', or 'Austin, TX'.",
       logo: "ApartmentTwoTone",
@@ -90,40 +120,10 @@ export const About = () => {
       logo: "DirectionsRunTwoTone",
     },
     {
-      name: "Favorite Sports Teams",
-      description:
-        "My favorite college sport teams to watch are Michigan and Louisville, and my favorite professional sports teams to watch are the 'Detroit Lions' and 'Optic Gaming'.",
-      logo: "ScreenShareTwoTone",
-    },
-    {
-      name: "Unique",
-      description:
-        "I'm a 6'4\" triplet with a distinctive mole in my eye, giving it two different colors. I also enjoy growing bonsai trees.",
-      logo: "FolderSpecialTwoTone",
-    },
-    {
-      name: "Setup Tour",
-      description:
-        "Dell Inspiron 15 Laptop, ASUS TUF Gaming VG259QM 24.5” Monitor, FNATIC STREAK65 Mechanical Keyboard, Razer Basilisk Wireless Mouse, Besign laptop stand.",
-      logo: "HomeWorkTwoTone",
-    },
-    {
       name: "Food Places in Louisville",
       description:
         "My three favorite restaurants located within the Louisville metro area are 'Guaca Mole', 'Goodfellas Pizzeria', and 'La Bodeguita De Mima'",
       logo: "RestaurantTwoTone",
-    },
-    {
-      name: "Current Goals",
-      description:
-        "My current goals are to lock down a full time job, find a side hustle, and get better at golf.",
-      logo: "SportsScoreTwoTone",
-    },
-    {
-      name: "Favorite Apps",
-      description:
-        "My current favorite apps are 'YouTube', 'Spotify', and 'Instagram'.",
-      logo: "PhoneIphoneTwoTone",
     },
   ];
 
