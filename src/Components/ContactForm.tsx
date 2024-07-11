@@ -3,7 +3,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
-  const siteKey: string = process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY || "";
+  const siteKey: string = "6LcqoAAqAAAAAAr_HWWsHzn1a7ANpB2ESIG7hhDP";
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [captchaValid, setCaptchaValid] = useState(false);
 
