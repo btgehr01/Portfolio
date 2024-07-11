@@ -1,11 +1,13 @@
 import React, { useRef, useState } from "react";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactForm = () => {
   const siteKey: string = process.env.REACT_APP_GOOGLE_RECAPTCHA_SITE_KEY || "";
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [captchaValid, setCaptchaValid] = useState(false);
+
+  console.log("siteKey", siteKey);
 
   const handleCaptchaChange = (value: string | null): void => {
     setCaptchaValid(!!value);
