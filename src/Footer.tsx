@@ -4,7 +4,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import SpotifyIcon from "@mui/icons-material/MusicNote";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import "./Styles/footer.scss";
+import "./Styles/Footer.scss";
 
 const Footer: React.FC = () => {
   return (
