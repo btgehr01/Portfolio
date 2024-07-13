@@ -9,17 +9,6 @@ import BluetoothConnectedIcon from "@mui/icons-material/BluetoothConnected";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 
-// const pages = [
-//   "Portfolio",
-//   "Current Projects",
-//   "Hobbies",
-//   "Setup",
-//   "Products",
-//   "Sponsors",
-//   "Teams",
-//   "Contact",
-// ];
-
 const pagesLeft = ["Portfolio", "Initiatives"];
 const pagesRight = ["About", "Contact"];
 
@@ -39,7 +28,7 @@ function TopNav() {
         <Toolbar>
           <BluetoothConnectedIcon
             sx={{
-              display: { xs: "flex", md: "flex" },
+              display: { xs: "none", md: "flex" },
               color: "grey",
               "&:hover": {
                 color: "white",
