@@ -33,6 +33,9 @@ const ContactForm = () => {
 
   const handleCaptchaChange = (value: string | null): void => {
     setCaptchaValid(!!value);
+    if (output !== MessageType.Empty) {
+      setOutput(MessageType.Empty);
+    }
   };
 
   const renderOutputMessage = () => {
@@ -108,6 +111,7 @@ const ContactForm = () => {
         setOutput(MessageType.Success);
         resetFormFields();
       } catch (e) {
+        console.log("error");
         setOutput(MessageType.Error);
       } finally {
         setIsLoading(false);
@@ -150,6 +154,9 @@ const ContactForm = () => {
         }}
         onSubmit={handleSubmit}
       >
+        <Typography variant="h5" gutterBottom sx={{ color: "white" }}>
+          **Under Construction**
+        </Typography>
         <Typography variant="h4" gutterBottom sx={{ color: "white" }}>
           Contact Me
         </Typography>
