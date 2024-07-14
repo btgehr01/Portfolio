@@ -12,6 +12,6 @@ export const sendEmail = async (
     email,
     message,
   };
-  const response = await axios.post(`${apiUrl}/email`, body);
+  const response = await axios.post(`${apiUrl}/sendEmail`, body);
   return response.data;
 };
