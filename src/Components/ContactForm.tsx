@@ -154,7 +154,7 @@ const ContactForm = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h5" gutterBottom sx={{ color: "white" }}>
+        <Typography variant="h3" gutterBottom sx={{ color: "white" }}>
           **Under Construction**
         </Typography>
         <Typography variant="h4" gutterBottom sx={{ color: "white" }}>
