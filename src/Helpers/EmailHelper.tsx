@@ -7,11 +7,15 @@ export const sendEmail = async (
   email: string,
   message: string
 ) => {
-  const body = {
-    fullName: name,
-    email,
-    message,
-  };
-  const response = await axios.post(`${apiUrl}/sendEmail`, body);
-  return response.data;
+  try {
+    const body = {
+      fullName: name,
+      email,
+      message,
+    };
+    const response = await axios.post(`${apiUrl}/sendEmail`, body);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to send email. Please try again later.");
+  }
 };

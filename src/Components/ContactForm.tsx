@@ -122,10 +122,10 @@ const ContactForm = () => {
       try {
         await sendEmail(fullName, email, message);
         setOutput(MessageType.Success);
-        resetFormFields();
       } catch (e) {
         setOutput(MessageType.Error);
       } finally {
+        resetFormFields();
         setIsLoading(false);
       }
     }
