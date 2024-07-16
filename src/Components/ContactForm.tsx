@@ -69,34 +69,47 @@ const ContactForm = () => {
     }
   };
 
-  const validateForm = () => {
-    let valid = true;
-
+  const validateFullName = (name: string) => {
     const fullNameRegex = /^[a-zA-Z]+ [a-zA-Z]+$/;
-    if (!fullNameRegex.test(fullName.trim())) {
-      setFullNameError(true);
-      valid = false;
-    } else {
-      setFullNameError(false);
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailError(true);
-      valid = false;
-    } else {
-      setEmailError(false);
-    }
-
-    if (message.trim() === "") {
-      setMessageError(true);
-      valid = false;
-    } else {
-      setMessageError(false);
-    }
-
-    return valid;
+    return fullNameRegex.test(name.trim());
   };
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateMessage = (message: string) => {
+    return message.trim() !== "";
+  };
+
+  const validateForm = () => {
+    return (
+      validateFullName(fullName) &&
+      validateEmail(email) &&
+      validateMessage(message)
+    );
+  };
+
+  const handleInputChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setter(value);
+      if (output !== MessageType.Empty) {
+        setOutput(MessageType.Empty);
+      }
+    };
+
+  const handleBlur =
+    (
+      value: string,
+      validator: (value: string) => boolean,
+      setError: React.Dispatch<React.SetStateAction<boolean>>
+    ) =>
+    () => {
+      setError(!validator(value));
+    };
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -111,24 +124,12 @@ const ContactForm = () => {
         setOutput(MessageType.Success);
         resetFormFields();
       } catch (e) {
-        console.log("error");
         setOutput(MessageType.Error);
       } finally {
         setIsLoading(false);
       }
-    } else if (!captchaValid) {
-      console.log("Please complete the CAPTCHA");
     }
   };
-
-  const handleInputChange =
-    (setter: React.Dispatch<React.SetStateAction<string>>) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setter(e.target.value);
-      if (output !== MessageType.Empty) {
-        setOutput(MessageType.Empty);
-      }
-    };
 
   return (
     <Box
@@ -154,9 +155,6 @@ const ContactForm = () => {
         }}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h3" gutterBottom sx={{ color: "white" }}>
-          **Under Construction**
-        </Typography>
         <Typography variant="h4" gutterBottom sx={{ color: "white" }}>
           Contact Me
         </Typography>
@@ -168,6 +166,7 @@ const ContactForm = () => {
           variant="outlined"
           value={fullName}
           onChange={handleInputChange(setFullName)}
+          onBlur={handleBlur(fullName, validateFullName, setFullNameError)}
           error={fullNameError}
           helperText={
             fullNameError
@@ -198,6 +197,7 @@ const ContactForm = () => {
           variant="outlined"
           value={email}
           onChange={handleInputChange(setEmail)}
+          onBlur={handleBlur(email, validateEmail, setEmailError)}
           error={emailError}
           helperText={emailError ? "Please enter a valid email address." : ""}
           InputLabelProps={{ style: { color: "white" } }}
@@ -226,6 +226,7 @@ const ContactForm = () => {
           rows={4}
           value={message}
           onChange={handleInputChange(setMessage)}
+          onBlur={handleBlur(message, validateMessage, setMessageError)}
           error={messageError}
           helperText={messageError ? "Message cannot be empty." : ""}
           InputLabelProps={{ style: { color: "white" } }}
@@ -265,7 +266,7 @@ const ContactForm = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? <CircularProgress size={24} /> : "Send Message"}
+            {isLoading ? <CircularProgress size={20} /> : "Send Message"}
           </Button>
         ) : (
           <>{renderOutputMessage()}</>
