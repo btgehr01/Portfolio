@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React from "react";
 
 export const Initiatives = () => {
@@ -7,11 +7,15 @@ export const Initiatives = () => {
       sx={{
         height: "100vh",
         display: "flex",
-        justifyContent: "start",
+        justifyContent: "center",
         alignItems: "center",
         padding: "1rem",
         backgroundColor: "black",
       }}
-    ></Box>
+    >
+      <Typography variant="h3" gutterBottom sx={{ color: "white" }}>
+        **Under Construction**
+      </Typography>
+    </Box>
   );
 };
