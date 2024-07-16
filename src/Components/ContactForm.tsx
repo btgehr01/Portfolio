@@ -266,7 +266,7 @@ const ContactForm = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? <CircularProgress size={20} /> : "Send Message"}
+            {isLoading ? <CircularProgress size={24} /> : "Send Message"}
           </Button>
         ) : (
           <>{renderOutputMessage()}</>
