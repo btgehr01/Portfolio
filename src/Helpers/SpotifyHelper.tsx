@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "/api/spotify";
+const apiUrl = "https://bradygehrman-api.vercel.app/api/spotify";
 
 export const postSongToPlaylist = async (songURI: string) => {
   try {

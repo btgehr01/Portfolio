@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
+import SpotifyController from "../Screens/Spotify";
 
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -17,13 +18,14 @@ const ThreeScene: React.FC = () => {
       0.1,
       1000
     );
-    camera.position.z = 5;
+    camera.position.z = 15;
+    camera.position.y = -7;
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
 
-    const geometry = new THREE.BoxGeometry();
+    const geometry = new THREE.BoxGeometry(3, 3, 3);
     const material = new THREE.MeshBasicMaterial({ color: "lightblue" });
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
@@ -42,7 +44,24 @@ const ThreeScene: React.FC = () => {
   }, []);
 
   return (
-    <div ref={mountRef} style={{ minWidth: "100%", minHeight: "100vh" }}></div>
+    <div
+      ref={mountRef}
+      style={{
+        position: "relative",
+        minWidth: "100%",
+        minHeight: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 1,
+        }}
+      >
+        <SpotifyController />
+      </div>
+    </div>
   );
 };
 

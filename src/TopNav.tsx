@@ -9,8 +9,19 @@ import BluetoothConnectedIcon from "@mui/icons-material/BluetoothConnected";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
 
-const pagesLeft = ["Portfolio", "Initiatives"];
-const pagesRight = ["About", "Contact"];
+type page = {
+  label: string;
+  route: string;
+};
+
+const pagesLeft: page[] = [
+  { label: "Portfolio", route: "Portfolio" },
+  { label: "Initiatives", route: "Initiatives" },
+];
+const pagesRight: page[] = [
+  { label: "My Profile", route: "About" },
+  { label: "Contact Me", route: "Contact" },
+];
 
 function TopNav() {
   const navigate = useNavigate();
@@ -49,8 +60,8 @@ function TopNav() {
           >
             {pagesLeft.map((page) => (
               <Button
-                key={page}
-                onClick={() => handleRedirect(page)}
+                key={page.route}
+                onClick={() => handleRedirect(page.route)}
                 sx={{
                   my: 2,
                   display: "block",
@@ -64,7 +75,7 @@ function TopNav() {
                   },
                 }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
@@ -100,8 +111,8 @@ function TopNav() {
           >
             {pagesRight.map((page) => (
               <Button
-                key={page}
-                onClick={() => handleRedirect(page)}
+                key={page.route}
+                onClick={() => handleRedirect(page.route)}
                 sx={{
                   my: 2,
                   display: "block",
@@ -115,7 +126,7 @@ function TopNav() {
                   },
                 }}
               >
-                {page}
+                {page.label}
               </Button>
             ))}
           </Box>
