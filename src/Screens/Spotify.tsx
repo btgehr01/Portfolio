@@ -14,6 +14,7 @@ import {
   getSongsFromSearch,
   postSongToPlaylist,
 } from "../Helpers/SpotifyHelper";
+import { AxiosError } from "axios";
 
 export type Artist = {
   id: string;
@@ -67,7 +68,6 @@ const SpotifyController = () => {
       try {
         const response = await getSongsFromSearch(searchString.trim());
         setSongOptions(response?.tracks?.items || []);
-        console.log("Tracks:", response?.tracks?.items);
       } catch (e) {
         console.error("Error searching for songs:", e);
       } finally {
@@ -81,8 +81,12 @@ const SpotifyController = () => {
       setAddingSong(true);
       try {
         await postSongToPlaylist(selectedSongId);
-      } catch (e) {
-        console.error("Error adding song to playlist:", e);
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.status === 401) {
+          window.location.href =
+            "https://bradygehrman-api.vercel.app/api/auth/login";
+        }
       } finally {
         setAddingSong(false);
       }
