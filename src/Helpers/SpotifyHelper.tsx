@@ -22,9 +22,16 @@ export const postSongToPlaylist = async (songURI: string) => {
 
 export const getPlaylistSongs = async () => {
   try {
-    const response = await axios.get(`${apiUrl}/getPlaylistSongs`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(`${apiUrl}/getPlaylistSongs`);
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getPlaylist = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/getPlaylist`);
     return response.data;
   } catch (e) {
     console.error(e);

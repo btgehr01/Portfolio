@@ -8,6 +8,7 @@ import {
   Typography,
   ThemeProvider,
   createTheme,
+  Alert,
 } from "@mui/material";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import {
@@ -15,54 +16,46 @@ import {
   postSongToPlaylist,
 } from "../Helpers/SpotifyHelper";
 import { AxiosError } from "axios";
-
-export type Artist = {
-  id: string;
-  name: string;
-};
-
-export type Album = {
-  id: string;
-  name: string;
-  images: Array<{
-    url: string;
-    height: number;
-    width: number;
-  }>;
-};
-
-export type TrackItem = {
-  id: string;
-  name: string;
-  artists: Artist[];
-  album: Album;
-  duration_ms: number;
-  explicit: boolean;
-  external_urls: {
-    spotify: string;
-  };
-  href: string;
-  popularity: number;
-  preview_url: string | null;
-  type: string;
-  uri: string;
-};
+import SpotifyPlaylist from "./SpotifyPlaylist";
+import { TrackItem } from "../Types/types";
 
 const SpotifyController = () => {
   const [open, setOpen] = useState(false);
   const [songOptions, setSongOptions] = useState<TrackItem[]>([]);
-  const [selectedSongId, setSelectedSongId] = useState<string | null>(null);
+  const [selectedSongId, setSelectedSongId] = useState<string>("");
   const [isLoadingSongs, setIsLoadingSongs] = useState(false);
   const [addingSongs, setAddingSong] = useState(false);
 
+  enum MessageType {
+    Empty = "EMPTY",
+    Success = "SUCCESS",
+    Duplicate = "DUPLICATE",
+    Error = "ERROR",
+  }
+
+  const [output, setOutput] = useState<MessageType>(MessageType.Empty);
+
+  const initialSearchString = "Drake";
+
+  const resetOutput = () => {
+    if (output !== MessageType.Empty) {
+      setOutput(MessageType.Empty);
+    }
+  };
+
+  const resetSearch = async () => {
+    await handleSearch(initialSearchString);
+  };
+
   useEffect(() => {
     const initialSearch = async () => {
-      await handleSearch("Drake");
+      await resetSearch();
     };
     initialSearch();
   }, []);
 
   const handleSearch = async (searchString: string) => {
+    resetOutput();
     if (searchString.trim()) {
       setIsLoadingSongs(true);
       try {
@@ -81,15 +74,49 @@ const SpotifyController = () => {
       setAddingSong(true);
       try {
         await postSongToPlaylist(selectedSongId);
+        setOutput(MessageType.Success);
       } catch (error) {
         const axiosError = error as AxiosError;
         if (axiosError.response && axiosError.response.status === 401) {
           window.location.href =
             "https://bradygehrman-api.vercel.app/api/auth/login";
+        } else if (axiosError.response && axiosError.response.status === 409) {
+          setOutput(MessageType.Duplicate);
+        } else {
+          setOutput(MessageType.Error);
         }
       } finally {
+        setSelectedSongId("");
         setAddingSong(false);
       }
+    }
+  };
+
+  const renderOutputMessage = () => {
+    switch (output) {
+      case MessageType.Empty:
+        return null;
+      case MessageType.Success:
+        return (
+          <Alert severity="success">
+            The song has been successfully added to the shared playlist.
+          </Alert>
+        );
+      case MessageType.Duplicate:
+        return (
+          <Alert severity="warning">
+            This song is already in the shared playlist.
+          </Alert>
+        );
+      case MessageType.Error:
+        return (
+          <Alert severity="error">
+            Unable to add the song to the shared playlist. Please try again
+            later.
+          </Alert>
+        );
+      default:
+        return null;
     }
   };
 
@@ -106,10 +133,12 @@ const SpotifyController = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
           height: "100vh",
           width: "100vw",
         }}
       >
+        <SpotifyPlaylist />
         <Box
           sx={{
             p: 2,
@@ -169,7 +198,8 @@ const SpotifyController = () => {
               }
             }}
             onChange={(e, newValue) => {
-              setSelectedSongId(newValue?.uri || null);
+              resetOutput();
+              setSelectedSongId(newValue?.uri || "");
             }}
             renderOption={(props, track) => (
               <li {...props} key={track.id}>
@@ -227,6 +257,7 @@ const SpotifyController = () => {
               "Add Song to Playlist"
             )}
           </Button>
+          <Box sx={{ paddingTop: 2 }}>{renderOutputMessage()}</Box>
         </Box>
       </Box>
     </ThemeProvider>

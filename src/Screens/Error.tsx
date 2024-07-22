@@ -2,10 +2,11 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ErrorScreen = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const getQueryParam = (param: string) => {
     const queryParams = new URLSearchParams(location.search);
@@ -38,7 +39,7 @@ const ErrorScreen = () => {
         variant="outlined"
         color="primary"
         sx={{ mt: 3 }}
-        onClick={() => (window.location.href = "/")}
+        onClick={() => navigate("/")}
       >
         Go to Home
       </Button>
