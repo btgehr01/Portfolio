@@ -34,6 +34,7 @@ const SpotifyController = () => {
   }
 
   const [output, setOutput] = useState<MessageType>(MessageType.Empty);
+  const [loadPlaylist, setLoadPlaylist] = useState(true);
 
   const initialSearchString = "Drake";
 
@@ -75,6 +76,7 @@ const SpotifyController = () => {
       try {
         await postSongToPlaylist(selectedSongId);
         setOutput(MessageType.Success);
+        setLoadPlaylist(true);
       } catch (error) {
         const axiosError = error as AxiosError;
         if (axiosError.response && axiosError.response.status === 401) {
@@ -138,7 +140,7 @@ const SpotifyController = () => {
           width: "100vw",
         }}
       >
-        <SpotifyPlaylist />
+        <SpotifyPlaylist reload={loadPlaylist} setReload={setLoadPlaylist} />
         <Box
           sx={{
             p: 2,

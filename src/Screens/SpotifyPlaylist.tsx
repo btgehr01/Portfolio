@@ -8,22 +8,26 @@ import {
   Typography,
   createTheme,
   CardMedia,
+  CardHeader,
+  Divider,
 } from "@mui/material";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import LinkIcon from "@mui/icons-material/Link";
 import { useTheme } from "@mui/material/styles";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { getPlaylist, getPlaylistSongs } from "../Helpers/SpotifyHelper";
-import {
-  SpotifyPlaylist,
-  SpotifyPlaylistItem,
-  SpotifyPlaylistItems,
-} from "../Types/types";
+import { SpotifyPlaylist, SpotifyPlaylistItem } from "../Types/types";
 
-const SpotifyPlaylist = () => {
+type Props = {
+  reload: boolean;
+  setReload: Dispatch<SetStateAction<boolean>>;
+};
+
+const SpotifyPlaylist = ({ reload, setReload }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [playlist, setPlaylist] = useState<SpotifyPlaylist | null>(null);
   const [playListSongs, setPlayListSongs] = useState<SpotifyPlaylistItem[]>([]);
@@ -35,17 +39,18 @@ const SpotifyPlaylist = () => {
     const loadPlaylist = async () => {
       await fetchSharedPlaylistAndPlaylistItems();
     };
-    loadPlaylist();
-  }, []);
+    if (reload) {
+      loadPlaylist();
+      setReload(false);
+    }
+  }, [reload]);
 
   const fetchSharedPlaylistAndPlaylistItems = async () => {
     setIsLoading(true);
     try {
       const playListObject: SpotifyPlaylist = await getPlaylist();
       setPlaylist(playListObject);
-      const playlistSongObjects: SpotifyPlaylistItems =
-        await getPlaylistSongs();
-      setPlayListSongs(playlistSongObjects?.items || []);
+      setPlayListSongs(playListObject?.tracks?.items || []);
     } catch (e) {
       console.error(e);
     } finally {
@@ -57,8 +62,15 @@ const SpotifyPlaylist = () => {
     if (playListSongs && playListSongs[songIndex]) {
       const trackToRender = playListSongs[songIndex];
       return (
-        <Card sx={{ display: "flex" }}>
-          <Box
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <CardContent
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -66,58 +78,103 @@ const SpotifyPlaylist = () => {
               alignItems: "center",
             }}
           >
-            <CardContent sx={{ flex: "1 0 auto" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                color: "white",
+                marginBottom: "15px",
+              }}
+            >
+              <IconButton
+                sx={{ marginRight: "9px" }}
+                onClick={renderPreviousCard}
+                aria-label="next track"
+              >
+                <ArrowBackIosNewIcon
+                  sx={{
+                    cursor: "pointer",
+                    color: shownSongIndex > 0 ? "white" : "gray",
+                  }}
+                  fontSize="large"
+                />
+              </IconButton>
               <CardMedia
                 component="img"
                 sx={{
-                  width: trackToRender.track.album.images[1].width,
-                  height: trackToRender.track.album.images[1].height,
+                  width: "300px",
+                  height: "300px",
                 }}
                 image={trackToRender.track.album.images[1].url || ""}
                 alt={`${trackToRender.track.name} album cover`}
               />
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "center",
-                }}
+              <IconButton
+                sx={{ marginLeft: "9px" }}
+                onClick={renderNextCard}
+                aria-label="next track"
               >
-                <Typography component="div" variant="h5">
-                  {trackToRender.track.name}
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  color="text.secondary"
-                  component="div"
-                >
-                  {trackToRender.track.artists[0].name}
-                </Typography>
-              </Box>
-            </CardContent>
-            <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-              <IconButton aria-label="previous">
-                {theme.direction === "rtl" ? (
-                  <SkipNextIcon />
-                ) : (
-                  <SkipPreviousIcon />
-                )}
-              </IconButton>
-              <IconButton aria-label="play/pause">
-                <PlayArrowIcon sx={{ height: 38, width: 38 }} />
-              </IconButton>
-              <IconButton aria-label="next">
-                {theme.direction === "rtl" ? (
-                  <SkipPreviousIcon />
-                ) : (
-                  <SkipNextIcon />
-                )}
+                <ArrowForwardIosIcon
+                  sx={{
+                    cursor: "pointer",
+                    color:
+                      shownSongIndex < playListSongs.length - 1
+                        ? "white"
+                        : "gray",
+                  }}
+                  fontSize="large"
+                />
               </IconButton>
             </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <Typography sx={{}} component="div" variant="h5">
+                {trackToRender.track.name}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="text.secondary"
+                component="div"
+              >
+                {trackToRender.track.artists[0].name}
+              </Typography>
+            </Box>
+          </CardContent>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              pl: 1,
+              pb: 1,
+            }}
+          >
+            <IconButton aria-label="previous">
+              {theme.direction === "rtl" ? (
+                <SkipNextIcon sx={{ color: "gray" }} />
+              ) : (
+                <SkipPreviousIcon sx={{ color: "gray" }} />
+              )}
+            </IconButton>
+            <IconButton aria-label="play/pause">
+              <PlayArrowIcon sx={{ height: 38, width: 38, color: "gray" }} />
+            </IconButton>
+            <IconButton aria-label="next">
+              {theme.direction === "rtl" ? (
+                <SkipPreviousIcon sx={{ color: "gray" }} />
+              ) : (
+                <SkipNextIcon sx={{ color: "gray" }} />
+              )}
+            </IconButton>
           </Box>
-        </Card>
+        </Box>
       );
     }
   };
@@ -141,43 +198,61 @@ const SpotifyPlaylist = () => {
   });
 
   return isLoading ? (
-    <CircularProgress color="inherit" size={28} />
+    <CircularProgress color="inherit" size={64} />
   ) : (
     <ThemeProvider theme={darkTheme}>
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: "20px",
           color: "white",
         }}
       >
-        <Typography component="div" variant="h5">
-          {playlist?.name}
-        </Typography>
-        <Box
+        <Card
           sx={{
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            color: "white",
+            flexDirection: "column",
+            width: "425px",
+            marginBottom: "30px",
           }}
         >
-          <ArrowBackIosIcon
-            sx={{ cursor: "pointer" }}
-            fontSize="large"
-            onClick={renderPreviousCard}
+          <CardHeader
+            avatar={
+              <CardMedia
+                component="img"
+                sx={{
+                  width: "65px",
+                  height: "65px",
+                }}
+                image={playlist?.images[2].url || ""}
+                alt={`${playlist?.name || "Shared Vibes"} playlist icon`}
+              />
+            }
+            action={
+              <IconButton
+                onClick={() => window.open(playlist?.uri, "_blank")}
+                aria-label="Playlist Link"
+              >
+                <LinkIcon sx={{ cursor: "pointer", padding: "5px" }} />
+              </IconButton>
+            }
+            title={playlist?.name || "Shared Vibes"}
+            subheader={
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Typography variant="body2" color="text.secondary">
+                  {playlist?.description || "Spotify Collaborative Music Mix"}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {playlist?.owner.display_name || "brady.gehrman"}
+                </Typography>
+              </Box>
+            }
           />
+          <Divider />
           {renderCurrentCard(shownSongIndex)}
-          <ArrowForwardIosIcon
-            sx={{ cursor: "pointer" }}
-            fontSize="large"
-            onClick={renderNextCard}
-          />
-        </Box>
+        </Card>
       </Box>
     </ThemeProvider>
   );
