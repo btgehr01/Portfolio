@@ -1,4 +1,3 @@
-// ErrorScreen.js
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
@@ -37,7 +36,7 @@ const ErrorScreen = () => {
       <Typography variant="h6">{errorMessage}</Typography>
       <Button
         variant="outlined"
-        color="primary"
+        color="error"
         sx={{ mt: 3 }}
         onClick={() => navigate("/")}
       >

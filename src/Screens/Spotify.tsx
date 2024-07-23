@@ -174,7 +174,7 @@ const SpotifyController = () => {
                 fontFamily: "Courier New",
               }}
             >
-              Shared Spotify Playlist
+              Add Your Favorite Song!
             </Typography>
           </Box>
           <Autocomplete

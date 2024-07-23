@@ -1,21 +1,39 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 
 export const Initiatives = () => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
-        height: "100vh",
+        minHeight: "100vh",
+        backgroundColor: "black",
+        padding: "50px",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: "1rem",
-        backgroundColor: "black",
+        color: "grey",
+        textAlign: "center",
       }}
     >
-      <Typography variant="h3" gutterBottom sx={{ color: "white" }}>
-        **Under Construction**
+      <ConstructionIcon sx={{ fontSize: 60, mb: 2 }} />
+      <Typography variant="h4" gutterBottom>
+        Construction
       </Typography>
+      <Typography variant="h6">
+        This Screen is Currently Under Construction
+      </Typography>
+      <Button
+        variant="outlined"
+        color="warning"
+        sx={{ mt: 3 }}
+        onClick={() => navigate("/")}
+      >
+        Go to Home
+      </Button>
     </Box>
   );
 };

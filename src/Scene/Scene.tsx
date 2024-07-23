@@ -19,21 +19,30 @@ const ThreeScene: React.FC = () => {
       1000
     );
     camera.position.z = 15;
-    camera.position.y = -7;
+    camera.position.y = -5;
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
 
-    const geometry = new THREE.BoxGeometry(3, 3, 3);
-    const material = new THREE.MeshBasicMaterial({ color: "lightblue" });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    const geometry1 = new THREE.BoxGeometry(3, 3, 3);
+    const material1 = new THREE.MeshBasicMaterial({ color: "lightgreen" });
+    const cube1 = new THREE.Mesh(geometry1, material1);
+    cube1.position.x = -13;
+    scene.add(cube1);
+
+    const geometry2 = new THREE.BoxGeometry(3, 3, 3);
+    const material2 = new THREE.MeshBasicMaterial({ color: "lightgreen" });
+    const cube2 = new THREE.Mesh(geometry2, material2);
+    cube2.position.x = 13;
+    scene.add(cube2);
 
     const animate = () => {
       requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      cube1.rotation.x += 0.01;
+      cube1.rotation.y += 0.01;
+      cube2.rotation.x += 0.01;
+      cube2.rotation.y += 0.01;
       renderer.render(scene, camera);
     };
     animate();

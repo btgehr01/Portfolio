@@ -19,7 +19,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import LinkIcon from "@mui/icons-material/Link";
 import { useTheme } from "@mui/material/styles";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getPlaylist, getPlaylistSongs } from "../Helpers/SpotifyHelper";
+import { getPlaylist } from "../Helpers/SpotifyHelper";
 import { SpotifyPlaylist, SpotifyPlaylistItem } from "../Types/types";
 
 type Props = {
@@ -198,7 +198,7 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
   });
 
   return isLoading ? (
-    <CircularProgress color="inherit" size={64} />
+    <CircularProgress sx={{ marginBottom: "30px" }} color="primary" size={64} />
   ) : (
     <ThemeProvider theme={darkTheme}>
       <Box
@@ -238,7 +238,15 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                 <LinkIcon sx={{ cursor: "pointer", padding: "5px" }} />
               </IconButton>
             }
-            title={playlist?.name || "Shared Vibes"}
+            title={
+              <Typography
+                variant="body1"
+                sx={{ fontSize: "24px", fontWeight: "bold" }}
+                color="text.primary"
+              >
+                {playlist?.name || "Shared Vibes"}
+              </Typography>
+            }
             subheader={
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography variant="body2" color="text.secondary">

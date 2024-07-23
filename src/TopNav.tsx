@@ -132,7 +132,7 @@ function TopNav() {
           </Box>
           <HomeIcon
             sx={{
-              display: { xs: "flex", md: "flex" },
+              display: { cursor: "pointer", xs: "flex", md: "flex" },
               color: "grey",
               "&:hover": {
                 color: "white",
