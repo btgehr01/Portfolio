@@ -10,6 +10,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".scss"],
+    alias: {
+      three: path.resolve(__dirname, "node_modules/three"),
+    },
   },
   module: {
     rules: [
@@ -23,7 +26,7 @@ module.exports = {
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif|svg|gltf)$/i,
         use: [
           {
             loader: "file-loader",
@@ -42,7 +45,7 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: path.join(__dirname, "dist"),
+    static: path.join(__dirname, "public"),
     historyApiFallback: true,
     compress: true,
     port: 3000,

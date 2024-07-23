@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, MutableRefObject } from "react";
 import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import SpotifyController from "../Screens/Spotify";
 
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
+  const model1Ref = useRef<THREE.Object3D | null>(null);
+  const model2Ref = useRef<THREE.Object3D | null>(null);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -18,31 +21,49 @@ const ThreeScene: React.FC = () => {
       0.1,
       1000
     );
-    camera.position.z = 15;
-    camera.position.y = -5;
+    camera.position.set(0, 0, 20);
+    camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
 
-    const geometry1 = new THREE.BoxGeometry(3, 3, 3);
-    const material1 = new THREE.MeshBasicMaterial({ color: "lightgreen" });
-    const cube1 = new THREE.Mesh(geometry1, material1);
-    cube1.position.x = -13;
-    scene.add(cube1);
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
 
-    const geometry2 = new THREE.BoxGeometry(3, 3, 3);
-    const material2 = new THREE.MeshBasicMaterial({ color: "lightgreen" });
-    const cube2 = new THREE.Mesh(geometry2, material2);
-    cube2.position.x = 13;
-    scene.add(cube2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5).normalize();
+    scene.add(directionalLight);
+
+    const loader = new GLTFLoader();
+
+    const loadModel = (
+      path: string,
+      position: { x: number; y: number; z: number },
+      modelRef: MutableRefObject<THREE.Object3D | null>
+    ) => {
+      loader.load(path, (gltf) => {
+        const model = gltf.scene;
+        console.log("Model loaded:", model);
+        model.position.set(position.x, position.y, position.z);
+        scene.add(model);
+        modelRef.current = model;
+      });
+    };
+
+    loadModel("/Static/headphones1.gltf", { x: -15, y: 0, z: 0 }, model1Ref);
+    loadModel("/Static/headphones1.gltf", { x: 15, y: 0, z: 0 }, model2Ref);
 
     const animate = () => {
       requestAnimationFrame(animate);
-      cube1.rotation.x += 0.01;
-      cube1.rotation.y += 0.01;
-      cube2.rotation.x += 0.01;
-      cube2.rotation.y += 0.01;
+
+      if (model1Ref.current) {
+        model1Ref.current.rotation.y += 0.01;
+      }
+      if (model2Ref.current) {
+        model2Ref.current.rotation.y += 0.01;
+      }
+
       renderer.render(scene, camera);
     };
     animate();
