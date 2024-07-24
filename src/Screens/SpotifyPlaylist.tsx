@@ -397,7 +397,7 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                     height: "65px",
                   }}
                   image={playlist?.images[2]?.url || ""}
-                  alt={`${playlist?.name || "Shared Vibes"} playlist icon`}
+                  alt={"playlist icon"}
                 />
               }
               action={
