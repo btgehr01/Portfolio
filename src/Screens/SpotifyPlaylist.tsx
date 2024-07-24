@@ -404,8 +404,8 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                 <IconButton
                   onClick={() =>
                     window.open(
-                      playlist?.uri ||
-                        "spotify:playlist:3vlftc1sQ3E4SmBwg5AKMC",
+                      playlist?.external_urls?.spotify ||
+                        "https://open.spotify.com/playlist/3vlftc1sQ3E4SmBwg5AKMC",
                       "_blank"
                     )
                   }
