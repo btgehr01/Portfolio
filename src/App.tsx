@@ -30,7 +30,7 @@ const App: React.FC = () => {
         <Route path="/initiatives" element={<Initiatives />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/error" element={<ErrorScreen />} />
+        <Route path="/errorScreen" element={<ErrorScreen />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
