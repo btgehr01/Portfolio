@@ -14,7 +14,7 @@ export const About = () => {
     {
       name: "Education",
       description:
-        "Received my Bachelor's and Master's degrees in Computer Engineering and Science from the University of Louisville Speed School of Engineering.",
+        "Received my Bachelor's and Master's degrees in Computer Science and Engineering from the University of Louisville Speed School of Engineering.",
       logo: "SchoolTwoTone",
     },
     {
@@ -116,7 +116,7 @@ export const About = () => {
     {
       name: "Favorite Shoes",
       description:
-        "My top three favorite shoes are 'Nike Blazer', 'Adidas Ultraboost', and 'Nike Air Max'.",
+        "My top three favorite shoes are 'Nike Blazers', 'Adidas Ultraboosts', and 'Nike Air Maxes'.",
       logo: "DirectionsRunTwoTone",
     },
     {
