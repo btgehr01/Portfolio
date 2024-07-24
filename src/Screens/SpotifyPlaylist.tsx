@@ -109,7 +109,7 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                   width: "300px",
                   height: "300px",
                 }}
-                image={trackToRender.track.album.images[1].url || ""}
+                image={trackToRender.track.album.images[1]?.url || ""}
                 alt={`${trackToRender.track.name} album cover`}
               />
               <IconButton
@@ -396,7 +396,7 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                     width: "65px",
                     height: "65px",
                   }}
-                  image={playlist?.images[2].url || ""}
+                  image={playlist?.images[2]?.url || ""}
                   alt={`${playlist?.name || "Shared Vibes"} playlist icon`}
                 />
               }
