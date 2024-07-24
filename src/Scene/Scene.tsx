@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, MutableRefObject } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import SpotifyController from "../Screens/Spotify";
 
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
-  const model1Ref = useRef<THREE.Object3D | null>(null);
-  const model2Ref = useRef<THREE.Object3D | null>(null);
+  const modelRef = useRef<THREE.Object3D | null>(null);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -21,7 +19,7 @@ const ThreeScene: React.FC = () => {
       0.1,
       1000
     );
-    camera.position.set(0, 0, 20);
+    camera.position.set(0, 0, 8);
     camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer();
@@ -44,31 +42,36 @@ const ThreeScene: React.FC = () => {
     ) => {
       loader.load(path, (gltf) => {
         const model = gltf.scene;
-        console.log("Model loaded:", model);
         model.position.set(position.x, position.y, position.z);
         scene.add(model);
         modelRef.current = model;
       });
     };
 
-    loadModel("/Static/headphones1.gltf", { x: -15, y: 0, z: 0 }, model1Ref);
-    loadModel("/Static/headphones1.gltf", { x: 15, y: 0, z: 0 }, model2Ref);
+    loadModel("/Static/headphones1.gltf", { x: 0, y: 0, z: 0 }, modelRef);
 
     const animate = () => {
       requestAnimationFrame(animate);
 
-      if (model1Ref.current) {
-        model1Ref.current.rotation.y += 0.01;
-      }
-      if (model2Ref.current) {
-        model2Ref.current.rotation.y += 0.01;
+      if (modelRef.current) {
+        modelRef.current.rotation.y += 0.01;
       }
 
       renderer.render(scene, camera);
     };
     animate();
 
+    const resizeHandler = () => {
+      if (!mount) return;
+      camera.aspect = mount.clientWidth / mount.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+    };
+
+    window.addEventListener("resize", resizeHandler);
+
     return () => {
+      window.removeEventListener("resize", resizeHandler);
       mount.removeChild(renderer.domElement);
     };
   }, []);
@@ -77,21 +80,10 @@ const ThreeScene: React.FC = () => {
     <div
       ref={mountRef}
       style={{
-        position: "relative",
-        minWidth: "100%",
-        minHeight: "100vh",
-        overflow: "hidden",
+        width: "100%",
+        height: "100%",
       }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 1,
-        }}
-      >
-        <SpotifyController />
-      </div>
-    </div>
+    ></div>
   );
 };
 

@@ -20,20 +20,19 @@ const App: React.FC = () => {
         minHeight: "100%",
         display: "flex",
         flexDirection: "column",
+        backgroundColor: "black",
       }}
     >
       <TopNav />
-      <Box sx={{ flex: "1 0 auto" }}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/initiatives" element={<Initiatives />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/error" element={<ErrorScreen />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Box>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/initiatives" element={<Initiatives />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/error" element={<ErrorScreen />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
       <Footer />
     </Box>
   );
