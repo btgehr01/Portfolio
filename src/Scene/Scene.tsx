@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, MutableRefObject } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import modelSrc from "/Static/headphones1.gltf";
+import modelSrc from "../../public/Static/headphones1.gltf";
 
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
