@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, MutableRefObject } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import modelSrc from "../../public/Static/headphones1.gltf";
 
 const ThreeScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -49,7 +48,11 @@ const ThreeScene: React.FC = () => {
       });
     };
 
-    loadModel(modelSrc, { x: 0, y: 0, z: 0 }, modelRef);
+    loadModel(
+      "/public/Static/headphones1.gltf",
+      { x: 0, y: 0, z: 0 },
+      modelRef
+    );
 
     const animate = () => {
       requestAnimationFrame(animate);
