@@ -10,6 +10,7 @@ import { Contact } from "./Screens/Contact";
 import { Box } from "@mui/material";
 import TopNav from "./TopNav";
 import Footer from "./Footer";
+import ErrorScreen from "./Screens/Error";
 
 const App: React.FC = () => {
   return (
@@ -19,19 +20,19 @@ const App: React.FC = () => {
         minHeight: "100%",
         display: "flex",
         flexDirection: "column",
+        backgroundColor: "black",
       }}
     >
       <TopNav />
-      <Box sx={{ flex: "1 0 auto" }}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/initiatives" element={<Initiatives />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Box>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/initiatives" element={<Initiatives />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/error" element={<ErrorScreen />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
       <Footer />
     </Box>
   );
