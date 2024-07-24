@@ -48,11 +48,7 @@ const ThreeScene: React.FC = () => {
       });
     };
 
-    loadModel(
-      "/public/Static/headphones1.gltf",
-      { x: 0, y: 0, z: 0 },
-      modelRef
-    );
+    loadModel("/Static/headphones1.gltf", { x: 0, y: 0, z: 0 }, modelRef);
 
     const animate = () => {
       requestAnimationFrame(animate);
