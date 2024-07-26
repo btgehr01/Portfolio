@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Autocomplete,
   Box,
@@ -18,8 +18,12 @@ import {
 import { AxiosError } from "axios";
 import SpotifyPlaylist from "./SpotifyPlaylist";
 import { TrackItem } from "../Types/types";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const SpotifyController = () => {
+  const siteKey = "6LcqoAAqAAAAAAr_HWWsHzn1a7ANpB2ESIG7hhDP";
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [captchaValid, setCaptchaValid] = useState(false);
   const [open, setOpen] = useState(false);
   const [songOptions, setSongOptions] = useState<TrackItem[]>([]);
   const [selectedSongId, setSelectedSongId] = useState<string>("");
@@ -37,6 +41,13 @@ const SpotifyController = () => {
   const [loadPlaylist, setLoadPlaylist] = useState(true);
 
   const initialSearchString = "Drake";
+
+  const handleCaptchaChange = (value: string | null): void => {
+    setCaptchaValid(!!value);
+    if (output !== MessageType.Empty) {
+      setOutput(MessageType.Empty);
+    }
+  };
 
   const resetOutput = () => {
     if (output !== MessageType.Empty) {
@@ -71,7 +82,7 @@ const SpotifyController = () => {
   };
 
   const handleAddSong = async () => {
-    if (selectedSongId) {
+    if (selectedSongId && captchaValid) {
       setAddingSong(true);
       try {
         await postSongToPlaylistv2(selectedSongId);
@@ -89,6 +100,10 @@ const SpotifyController = () => {
         }
       } finally {
         setSelectedSongId("");
+        if (recaptchaRef?.current) {
+          setCaptchaValid(false);
+          recaptchaRef.current.reset();
+        }
         setAddingSong(false);
       }
     }
@@ -232,13 +247,20 @@ const SpotifyController = () => {
             />
           )}
         />
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={siteKey}
+          onChange={handleCaptchaChange}
+        />
 
         <Button
           variant="outlined"
           color="primary"
           fullWidth
           onClick={handleAddSong}
-          disabled={!selectedSongId || addingSongs || isLoadingSongs}
+          disabled={
+            !selectedSongId || addingSongs || isLoadingSongs || !captchaValid
+          }
           sx={{ mt: 2 }}
         >
           {addingSongs ? (
