@@ -2,7 +2,6 @@ import {
   Box,
   Card,
   CardContent,
-  CircularProgress,
   IconButton,
   ThemeProvider,
   Typography,
@@ -20,9 +19,15 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import LinkIcon from "@mui/icons-material/Link";
 import { useTheme } from "@mui/material/styles";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { getPlaylist } from "../Helpers/SpotifyHelper";
-import { SpotifyPlaylist, SpotifyPlaylistItem } from "../Types/types";
+import { getPlatlistSongsv2 } from "../Helpers/SpotifyHelper";
+import {
+  GetSeveralTracksResponse,
+  SpotifyPlaylist,
+  SpotifyTrack,
+} from "../Types/types";
 import Scene from "../Scene/Scene";
+
+const playlistIcon = require("../Static/PlayListIcon.png");
 
 type Props = {
   reload: boolean;
@@ -31,8 +36,7 @@ type Props = {
 
 const SpotifyPlaylist = ({ reload, setReload }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [playlist, setPlaylist] = useState<SpotifyPlaylist | null>(null);
-  const [playListSongs, setPlayListSongs] = useState<SpotifyPlaylistItem[]>([]);
+  const [playListSongs, setPlayListSongs] = useState<SpotifyTrack[]>([]);
   const [shownSongIndex, setShownSongIndex] = useState(0);
 
   const theme = useTheme();
@@ -50,9 +54,9 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
   const fetchSharedPlaylistAndPlaylistItems = async () => {
     setIsLoading(true);
     try {
-      const playListObject: SpotifyPlaylist = await getPlaylist();
-      setPlaylist(playListObject);
-      setPlayListSongs(playListObject?.tracks?.items || []);
+      const fetchTracksObject: GetSeveralTracksResponse =
+        await getPlatlistSongsv2();
+      setPlayListSongs(fetchTracksObject?.tracks || []);
     } catch (e) {
       console.error(e);
     } finally {
@@ -109,8 +113,8 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                   width: "300px",
                   height: "300px",
                 }}
-                image={trackToRender.track.album.images[1]?.url || ""}
-                alt={`${trackToRender.track.name} album cover`}
+                image={trackToRender.album.images[1]?.url || ""}
+                alt={`${trackToRender.name} album cover`}
               />
               <IconButton
                 sx={{ marginLeft: "9px" }}
@@ -139,14 +143,14 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
               }}
             >
               <Typography component="div" variant="h5">
-                {trackToRender.track.name}
+                {trackToRender.name}
               </Typography>
               <Typography
                 variant="subtitle1"
                 color="text.secondary"
                 component="div"
               >
-                {trackToRender.track.artists[0].name}
+                {trackToRender.artists[0].name}
               </Typography>
             </Box>
           </CardContent>
@@ -396,23 +400,9 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                     width: "65px",
                     height: "65px",
                   }}
-                  image={playlist?.images[2]?.url || ""}
+                  image={"../Static/PlayListIcon.png"}
                   alt={"playlist icon"}
                 />
-              }
-              action={
-                <IconButton
-                  onClick={() =>
-                    window.open(
-                      playlist?.external_urls?.spotify ||
-                        "https://open.spotify.com/playlist/3vlftc1sQ3E4SmBwg5AKMC",
-                      "_blank"
-                    )
-                  }
-                  aria-label="Playlist Link"
-                >
-                  <LinkIcon sx={{ cursor: "pointer", padding: "5px" }} />
-                </IconButton>
               }
               title={
                 <Typography
@@ -420,16 +410,16 @@ const SpotifyPlaylist = ({ reload, setReload }: Props) => {
                   sx={{ fontSize: "24px", fontWeight: "bold" }}
                   color="text.primary"
                 >
-                  {playlist?.name || "Shared Vibes"}
+                  {"Shared Vibes"}
                 </Typography>
               }
               subheader={
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Typography variant="body2" color="text.secondary">
-                    {playlist?.description || "Spotify Collaborative Music Mix"}
+                    {"Spotify Collaborative Music Mix"}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {playlist?.owner.display_name || "brady.gehrman"}
+                    {"brady.gehrman"}
                   </Typography>
                 </Box>
               }

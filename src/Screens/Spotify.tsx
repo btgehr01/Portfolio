@@ -13,7 +13,7 @@ import {
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import {
   getSongsFromSearch,
-  postSongToPlaylist,
+  postSongToPlaylistv2,
 } from "../Helpers/SpotifyHelper";
 import { AxiosError } from "axios";
 import SpotifyPlaylist from "./SpotifyPlaylist";
@@ -74,7 +74,7 @@ const SpotifyController = () => {
     if (selectedSongId) {
       setAddingSong(true);
       try {
-        await postSongToPlaylist(selectedSongId);
+        await postSongToPlaylistv2(selectedSongId);
         setOutput(MessageType.Success);
         setLoadPlaylist(true);
       } catch (error) {

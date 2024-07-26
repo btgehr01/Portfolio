@@ -20,9 +20,37 @@ export const postSongToPlaylist = async (songURI: string) => {
   }
 };
 
+export const postSongToPlaylistv2 = async (songURI: string) => {
+  const songId = songURI.split(":")[2];
+  try {
+    const response = await axios.post(
+      `${apiUrl}/addSongv2`,
+      { songID: songId },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (e) {
+    throw e;
+  }
+};
+
 export const getPlaylistSongs = async () => {
   try {
     const response = await axios.get(`${apiUrl}/getPlaylistSongs`);
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getPlatlistSongsv2 = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/getPlaylistSongsv2`);
     return response.data;
   } catch (e) {
     console.error(e);

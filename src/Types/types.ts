@@ -138,7 +138,7 @@ export type SpotifyPlaylistItem = {
   track: SpotifyTrack;
 };
 
-type SpotifyTrack = {
+export type SpotifyTrack = {
   album: {
     album_type: string;
     artists: SpotifyArtist[];
@@ -221,4 +221,8 @@ export type TrackItem = {
   preview_url: string | null;
   type: string;
   uri: string;
+};
+
+export type GetSeveralTracksResponse = {
+  tracks: SpotifyTrack[];
 };
